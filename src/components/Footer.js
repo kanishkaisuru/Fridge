@@ -11,8 +11,8 @@ export default function Footer() {
   const { loading, error, items } = itemList;
 
   useEffect(() => {
-    dispatch(listItems())
-  }, []);
+    dispatch(listItems());
+  }, [dispatch]);
 
   return (
     <footer>
