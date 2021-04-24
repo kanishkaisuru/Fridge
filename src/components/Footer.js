@@ -22,7 +22,9 @@ export default function Footer() {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <>
-          <p>Total Items - 05</p>
+          <div className="totolItems">
+            <p>Total Items -- {items.length}</p>
+          </div>
           {items.map((item) => (
             <Item key={item._id} item={item}></Item>
           ))}

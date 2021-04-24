@@ -1,15 +1,25 @@
 import React from "react";
 import date from "date-and-time";
+import Status from "./Status";
+import { useDispatch, useSelector } from "react-redux";
+import { removeItem } from "../actions/iteamAddActions";
+import LoadingBox from "./LoadingBox";
 
-export default function item(props) {
+export default function Item(props) {
   const { item } = props;
-
+  const removeItems = useSelector((state) => state.removeItem);
+  const { loading } = removeItems;
+  const dispatch = useDispatch();
   const now = new Date();
   const today = date.format(now, "YYYY-MM-DD");
   const beforOneMonth = date.addMonths(
     date.parse(item.expiry, "YYYY-MM-DD"),
     1
   );
+
+  const removeFromItemHandler = (id) =>{
+      dispatch(removeItem(id));
+  }
 
   return (
     <div key={item._id} class="row">
@@ -19,49 +29,26 @@ export default function item(props) {
       </div>
       <div class="rightItem">
         {today > item.expiry ? (
-          <>
-            <p
-              style={{ backgroundColor: "#0080003d", color: "green" }}
-              class="status"
-            >
-              Healthy
-            </p>
-            <i
-              class="fa fa-trash deleteIcon"
-              aria-hidden="true"
-              style={{ color: item.color }}
-            ></i>
-          </>
+          <Status color={"green"} bColor={"#0080003d"} status={"Healthy"} />
         ) : beforOneMonth > item.expiry ? (
-          <>
-            <p
-              style={{ backgroundColor: "#ff00006b", color: "red" }}
-              class="status"
-            >
-              Expired Soon
-            </p>
-            <i
-              class="fa fa-trash deleteIcon"
-              aria-hidden="true"
-              style={{ color: item.color }}
-            ></i>
-          </>
+          <Status color={"brown"}  bColor={"#0080003d"} status={"Expired Soon"} />
         ) : (
-          <>
-            <p
-              style={{ backgroundColor: "#ff00006b", color: "red" }}
-              class="status"
-            >
-              Expired
-            </p>
-            <i
-              class="fa fa-trash deleteIcon"
-              aria-hidden="true"
-              style={{ color: item.color }}
-            ></i>
-          </>
+          <Status color={"red"}  bColor={"#ff00006b"} Status={"Expired"} />
         )}
+        <i
+          class="fa fa-trash deleteIcon"
+          aria-hidden="true"
+          onClick={()=>{removeFromItemHandler(item._id)}}
+          style={{ color: item.color }}
+        ></i>
       </div>
+      {
+        loading ? (
+          <LoadingBox />
+        ):(
+         <></>
+        )
+      }
     </div>
   );
 }

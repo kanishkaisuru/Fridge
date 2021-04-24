@@ -28,7 +28,7 @@ const submitHandler = (e) =>{
             </div>
             <div className="formItem">
               <label for="expiryDate">
-                <span style={{ fontSize: "15px" }}>&#127817;</span> expiry Date:
+                <span style={{ fontSize: "15px" }}><i class="em em-alarm_clock" aria-role="presentation" aria-label="ALARM CLOCK" style={{fontSize:'12px'}}></i></span> expiry Date:
               </label>
               <br />
               <input type="text" id="expiryDate" required onChange={(e)=> setExpiry(e.target.value)} />
